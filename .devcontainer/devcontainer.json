@@ -1,0 +1,11 @@
+{
+  "name": "arborist",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "args": {
+      "DEV_PACKAGES": "${localEnv:DEV_PACKAGES}"
+    },
+    "target": "dev",
+    "context": "./"
+  }
+}
