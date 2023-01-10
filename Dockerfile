@@ -12,6 +12,7 @@ FROM base AS dev
 ARG DEV_PACKAGES
 RUN apt-get update -qq &&\
     apt-get install -y --no-install-recommends \
+      curl \
       sudo \
       git \
       ${DEV_PACKAGES} &&\
