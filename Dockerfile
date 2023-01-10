@@ -2,7 +2,11 @@ FROM node:18-bullseye-slim AS base
 WORKDIR /app
 RUN chown -R 1000:1000 /app
 RUN apt-get update -qq &&\
-    apt-get install -y --no-install-recommends ssh
+    apt-get install -y --no-install-recommends \
+      ssh \
+      apt-transport-https \
+      ca-certificates
+      
 
 # On average, this `dev` stage adds around 20-30 seconds of build time, but
 # incurs no additional storage penalties in the final container image as it 
