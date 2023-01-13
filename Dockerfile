@@ -28,8 +28,13 @@ RUN usermod -a -G sudo node &&\
 USER 1000
 CMD ["/bin/sh", "-c", "while sleep 1000; do :; done"]
 
-FROM base AS build
-# TBD
 
+# Use the same base image as dev, but omit the dev specific dependencies to
+# keep the final image artifact at a reasonably small filesize.  Also happy
+# to discuss using a Debian base vs. Alpine for this as well. 
 FROM base AS prod
-# TBD
+USER 1000
+COPY package.json ./
+RUN npm install
+COPY . .
+CMD node ./bin/www
