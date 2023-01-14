@@ -1,0 +1,30 @@
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: arborist
+  
+  spec:
+    replicas: 1
+    template:
+      spec:
+        containers:
+        - name: arborist
+          image: arborist
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: 150m
+              memory: 256M
+            limits:
+              cpu: 1
+              memory: 512M
+          ports:
+          - name: http
+            protocol: TCP
+            containerPort: 3000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+  

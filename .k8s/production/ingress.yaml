@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: arborist
+spec:
+  tls:
+    - hosts:
+      - company.net
+      # Cert doesn't exist, for example purposes only
+      secretName: company-net-cert
+  rules:
+    - host: company.net
