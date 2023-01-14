@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arborist
+spec:
+  replicas: 2
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: arborist
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - name: arborist
+        image: 012345678901.dkr.ecr.us-west-2.amazonaws.com/arborist:1.0.0
+        resources:
+          limits:
+            cpu: 4
+            memory: 2048M

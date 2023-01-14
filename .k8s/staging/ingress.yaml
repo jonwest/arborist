@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: arborist
+spec:
+  tls:
+    - hosts:
+      - staging.company.net
+      # Cert doesn't exist, for example purposes only
+      secretName: staging-company-net-cert
+  rules:
+    - host: staging.company.net
