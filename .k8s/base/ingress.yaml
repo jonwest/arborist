@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: arborist
+spec:
+  tls:
+    - hosts:
+      - local.company.net
+      # I don't have a way to generate a valid cert for this, but 
+      # generally I'd put the cert secret here
+  rules:
+    - host: local.company.net
+      http:
+        paths:
+        - path: /tree
+          pathType: Prefix
+          backend:
+            service: 
+              name: arborist
+              port: 
+                name: http

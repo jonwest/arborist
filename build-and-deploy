@@ -1,0 +1,35 @@
+#!/bin/bash
+set -eo pipefail
+
+# We need minikube to be installed
+if [[ ! $(which minikube) ]]; then
+  echo "Error: minikube is not present, cannot continue.";
+  exit 1;
+fi
+
+
+echo -e "We'll need elevated privileges in order to start the minikube tunnel.\n\nPlease enter your password when prompted.";
+# This will avoid needing to re-ask for sudo password until the script ends
+sudo -v
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+
+# Going to assume the Docker daemon is in use for getting local images to work with minikube
+eval $(minikube docker-env)
+
+
+# Ensure that minikube ingress addon has been enabled
+if [[ ! $(kubectl get ingress) ]]; then
+ echo "Minikube ingress not available, installing now...";
+ minikube addons enable ingress;
+fi
+
+
+# Build image
+echo -e "Building image..."
+docker build -t arborist ./
+
+
+# Deploy to minikube
+echo -e "Deploying to minikube..."
+kubectl apply -k ${PWD}/.k8s/base
